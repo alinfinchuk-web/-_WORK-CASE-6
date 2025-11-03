@@ -1,0 +1,121 @@
+Kyiv College of Communications  
+PERFORMANCE REPORT 
+СРС WORK CASE No. 6
+ 
+
+ Discipline: "Operating Systems" 
+Performed by students of Group CSN-33 (Computer Systems and Networks).: 
+Finchuk Alina Oleksiivna  
+Kuznetsov Artur Serhiyovych 
+
+Checked by: 
+Suchanova Victoria Sergiivna 
+
+Розгляньте дані питання та дайте відповіді:
+1. В робочому просторі операційної системи необхідно встановити декілька командних
+2.  інтерпретаторів (окрім bash ще 2 на ваш вибір):
+
+- Якими командами це можна зробити;
+У Linux за замовчуванням є bash, але можна додати інші — наприклад zsh і fish.
+ Як встановити:
+sudo apt update
+sudo apt install zsh fish
+
+- Опишіть коротко можливості кожного з них.
+bash — це стандартна оболонка, стоїть майже у всіх Linux. Простий, стабільний, підтримує скрипти .sh.
+zsh — більш "розумний" bash: підказує команди, має автодоповнення, кольорові теми (через oh-my-zsh).
+Зручно для адмінів і розробників.
+fish (Friendly Interactive Shell) — максимально зручний для початківців: показує підказки прямо
+під час набору, має автодоповнення без налаштування, гарно виглядає.
+
+2. Необхідно створити 10 нових користувачі в вашій системі та розподілити їх по групам:
+- Technical support (технічна підтримка, системні адміністратори);
+- Developers (розробники, технічні спеціалісти свого профілю);
+- Financiers (бухгалтерія, економісти тощо);
+- Founders (керівництво);
+- Guests (гості).
+  
+Спочатку створюємо групи:
+sudo groupadd technical_support
+sudo groupadd developers
+sudo groupadd financiers
+sudo groupadd founders
+sudo groupadd guests
+
+
+Тепер створимо користувачів (по 2 у кожній групі, всього 10):
+
+# Technical support
+sudo useradd -m -s /bin/bash -G technical_support support1
+sudo useradd -m -s /bin/bash -G technical_support support2
+
+# Developers
+sudo useradd -m -s /usr/bin/zsh -G developers dev1
+sudo useradd -m -s /usr/bin/zsh -G developers dev2
+
+# Financiers
+sudo useradd -m -s /usr/sbin/nologin -G financiers fin1
+sudo useradd -m -s /usr/sbin/nologin -G financiers fin2
+
+# Founders
+sudo useradd -m -s /usr/bin/fish -G founders boss1
+sudo useradd -m -s /usr/bin/fish -G founders boss2
+
+# Guests
+sudo useradd -m -s /usr/sbin/nologin -G guests guest1
+sudo useradd -m -s /usr/sbin/nologin -G guests guest2
+
+
+-m створює домашню папку,
+-s задає командний інтерпретатор,
+-G — додає в групу.
+/usr/sbin/nologin — це спеціальний “інтерпретатор”, який блокує вхід у систему.
+
+3. Для кожного з користувачів визначити його командний інтерпретатор за замовчуванням:
+- Technical support – bash;
+- Developers – командний інтерпретатор 1 (завдання 1);
+- Financiers – заборонити доступ до командних інтерпретаторів;
+- Founders – командний інтерпретатор 2 (завдання 1);
+- Guests – заборонити доступ до командних інтерпретаторів.
+  
+Визначення командних інтерпретаторів за замовчуванням
+Група	Інтерпретатор
+Technical support	/bin/bash
+Developers	/usr/bin/zsh (інтерпретатор 1)
+Financiers	/usr/sbin/nologin (немає доступу)
+Founders	/usr/bin/fish (інтерпретатор 2)
+Guests	/usr/sbin/nologin (немає доступу)
+
+4. Продемонструвати приклади роботи кожної групи користувачів у своєму командному інтерпретаторі
+наприклад збір відомостей про систему, визначення базової конфігурації, системної дати, поточних каталогів тощо.
+Примітка: Якщо якісь завдання не вийшло зробити, то хоча б опишіть методику їх виконання.
+
+Приклади роботи користувачів
+Technical support (bash)
+whoami               # показує поточного користувача
+uname -a             # інформація про систему
+df -h                # використання диску
+free -m              # стан оперативної пам’яті
+date                 # поточна дата
+pwd                  # поточний каталог
+
+Developers (zsh)
+echo $SHELL           # перевірка, який shell використовується
+ls -la                # перегляд файлів
+top                   # активні процеси
+lscpu                 # процесорна інформація
+cat /etc/os-release   # версія Linux
+
+Founders (fish)
+status shell          # показує тип shell
+pwd
+date
+uptime                # як довго система працює
+df -h
+
+ Financiers і Guests
+У них при спробі входу буде повідомлення типу:
+This account is currently not available.
+Тобто вони не можуть користуватись терміналом, але їх можна використовувати для зберігання файлів чи системних ролей.
+
+
