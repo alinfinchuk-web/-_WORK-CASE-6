@@ -22,11 +22,11 @@ sudo apt update
 sudo apt install zsh fish
 
 - Опишіть коротко можливості кожного з них.
-bash — це стандартна оболонка, стоїть майже у всіх Linux. Простий, стабільний, підтримує скрипти .sh.
-zsh — більш "розумний" bash: підказує команди, має автодоповнення, кольорові теми (через oh-my-zsh).
-Зручно для адмінів і розробників.
-fish (Friendly Interactive Shell) — максимально зручний для початківців: показує підказки прямо
-під час набору, має автодоповнення без налаштування, гарно виглядає.
+bash – the default Linux shell. Simple and reliable, supports shell scripts (.sh).
+zsh – like an upgraded bash: it has smart auto-completion, nice colors and themes (Oh-My-Zsh),
+good for admins and developers.
+fish (Friendly Interactive Shell) – very user-friendly, gives live suggestions and auto-completion without extra setup,
+looks nice by default.
 
 2. Необхідно створити 10 нових користувачі в вашій системі та розподілити їх по групам:
 - Technical support (технічна підтримка, системні адміністратори);
@@ -35,7 +35,9 @@ fish (Friendly Interactive Shell) — максимально зручний дл
 - Founders (керівництво);
 - Guests (гості).
   
-Спочатку створюємо групи:
+I created five groups and added two users to each one (10 users total).
+
+Commands:
 sudo groupadd technical_support
 sudo groupadd developers
 sudo groupadd financiers
@@ -43,8 +45,7 @@ sudo groupadd founders
 sudo groupadd guests
 
 
-Тепер створимо користувачів (по 2 у кожній групі, всього 10):
-
+Then I added users:
 # Technical support
 sudo useradd -m -s /bin/bash -G technical_support support1
 sudo useradd -m -s /bin/bash -G technical_support support2
@@ -65,11 +66,11 @@ sudo useradd -m -s /usr/bin/fish -G founders boss2
 sudo useradd -m -s /usr/sbin/nologin -G guests guest1
 sudo useradd -m -s /usr/sbin/nologin -G guests guest2
 
-
--m створює домашню папку,
--s задає командний інтерпретатор,
--G — додає в групу.
-/usr/sbin/nologin — це спеціальний “інтерпретатор”, який блокує вхід у систему.
+Explanation:
+-m creates the user’s home directory
+-s sets the default shell
+-G adds the user to a group
+/usr/sbin/nologin means the user cannot log in to the shell.
 
 3. Для кожного з користувачів визначити його командний інтерпретатор за замовчуванням:
 - Technical support – bash;
@@ -78,44 +79,46 @@ sudo useradd -m -s /usr/sbin/nologin -G guests guest2
 - Founders – командний інтерпретатор 2 (завдання 1);
 - Guests – заборонити доступ до командних інтерпретаторів.
   
-Визначення командних інтерпретаторів за замовчуванням
-Група	Інтерпретатор
+Group	Default shell
 Technical support	/bin/bash
-Developers	/usr/bin/zsh (інтерпретатор 1)
-Financiers	/usr/sbin/nologin (немає доступу)
-Founders	/usr/bin/fish (інтерпретатор 2)
-Guests	/usr/sbin/nologin (немає доступу)
+Developers	/usr/bin/zsh (shell 1)
+Financiers	/usr/sbin/nologin (no shell)
+Founders	/usr/bin/fish (shell 2)
+Guests	/usr/sbin/nologin (no shell)
 
 4. Продемонструвати приклади роботи кожної групи користувачів у своєму командному інтерпретаторі
 наприклад збір відомостей про систему, визначення базової конфігурації, системної дати, поточних каталогів тощо.
 Примітка: Якщо якісь завдання не вийшло зробити, то хоча б опишіть методику їх виконання.
-
-Приклади роботи користувачів
-Technical support (bash)
-whoami               # показує поточного користувача
-uname -a             # інформація про систему
-df -h                # використання диску
-free -m              # стан оперативної пам’яті
-date                 # поточна дата
-pwd                  # поточний каталог
+   
+Technical Support (bash)
+whoami               # current user
+uname -a             # system information
+df -h                # disk usage
+free -m              # memory info
+date                 # current date
+pwd                  # current directory
 
 Developers (zsh)
-echo $SHELL           # перевірка, який shell використовується
-ls -la                # перегляд файлів
-top                   # активні процеси
-lscpu                 # процесорна інформація
-cat /etc/os-release   # версія Linux
+echo $SHELL           # check current shell
+ls -la                # show files
+top                   # running processes
+lscpu                 # CPU info
+cat /etc/os-release   # Linux version
 
 Founders (fish)
-status shell          # показує тип shell
+status shell          # show current shell type
 pwd
 date
-uptime                # як довго система працює
+uptime                # how long the system is running
 df -h
 
- Financiers і Guests
-У них при спробі входу буде повідомлення типу:
+Financiers and Guests
+When they try to log in, the system shows:
 This account is currently not available.
-Тобто вони не можуть користуватись терміналом, але їх можна використовувати для зберігання файлів чи системних ролей.
+That means they don’t have terminal access, only system-level permissions (for example, to own files).
+
+Conclusion
+In this lab, I installed two new command interpreters (zsh and fish), created several user groups with different access levels, and assigned the right shells to them.
+Now the system has organized user roles: admins work with bash, developers with zsh, management with fish, and other users have limited access.
 
 
